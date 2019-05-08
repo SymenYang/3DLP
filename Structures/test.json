@@ -1,0 +1,37 @@
+{
+    "lineStyle": {
+        "color" : [255,255,255]
+    },
+    "pointStyle":{
+        "width" : 1.5
+    },
+    "lines":[
+        {
+            "width" : 3,
+            "color" : [234,234,234],
+            "type" : "dash"
+        },
+        {
+            "color" : [234,234,234],
+            "type" : "solid"
+        },
+        {
+            "width" : 4,
+            "type" : "solid-"
+        }
+    ],
+    "points":[
+        {
+            "color" : [234,234,234]
+        },
+        {
+            "width" : 3
+        },
+        {
+            "color" : [234,234,234],
+            "width" : 3
+        }
+    ],
+    "nodes":[
+    ]
+}

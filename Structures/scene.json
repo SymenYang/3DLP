@@ -1,0 +1,17 @@
+{
+    "path" : "./",
+    "import" : {
+        "test" : "test.json"
+    },
+    "nodes" : [
+        {
+            "name" : "test"
+        },
+        {
+            "name" : "test",
+            "lineStyle": {
+                "color" : [250,250,250]
+            }
+        }
+    ]
+}
