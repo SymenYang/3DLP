@@ -1,6 +1,6 @@
 import numpy as np
-from line import line
-from point import point
+from Structures.line import line
+from Structures.point import point
 
 import json
 

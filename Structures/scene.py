@@ -1,7 +1,7 @@
 import numpy as np
-from line import line
-from point import point
-from node import node
+from Structures.line import line
+from Structures.point import point
+from Structures.node import node
 import json
 
 class scene(node):
