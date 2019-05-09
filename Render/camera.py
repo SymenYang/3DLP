@@ -25,7 +25,7 @@ class camera:
         self.rotation = np.identity(3)
         self.K = np.identity(3)
 
-        self.paper = np.zeros((1, 1, 4))
+        self.paper = np.zeros((1, 1, 3))
         self.filename = ''
         self.P = np.zeros((3,4))
 
@@ -56,7 +56,7 @@ class camera:
         self.rotation = self.getR(self.eular)
 
         # calc K
-        self.K = np.asarray([[self.f,0,self.dy],[0,self.f,self.dx],[0,0,1]])
+        self.K = np.asarray([[self.f,0,self.dx],[0,self.f,self.dy],[0,0,1]])
 
         self.P = self.getP()
 
@@ -100,7 +100,7 @@ class camera:
             ep = ep / ep[-1]
         else:
             print(ep)
-        cv2.line(self.paper,(int(sp[0] * self.height),int(sp[1] * self.width)),(int(ep[0] * self.height),int(ep[1] * self.width)),aLine.color,int(aLine.width),lineType=cv2.LINE_AA)
+        cv2.line(self.paper,(int(sp[0] / self.h * self.height),int(sp[1] / self.w * self.width)),(int(ep[0] / self.h * self.height),int(ep[1] / self.w * self.width)),aLine.color,int(aLine.width),lineType=cv2.LINE_AA)
     
     def drawPoint(self,aPoint,trans):
         pos = np.asarray(aPoint.pos)
@@ -109,7 +109,7 @@ class camera:
 
         p = self.P.dot(pos)
         p = p / p[-1]
-        cv2.circle(self.paper,(int(p[0] * self.height),int(p[1] * self.width)),int(aPoint.width),aPoint.color,-1)
+        cv2.circle(self.paper,(int(p[0] / self.h * self.height),int(p[1] / self.w * self.width)),int(aPoint.width),aPoint.color,-1)
     
     def write(self):
         cv2.imwrite(self.filename,self.paper)

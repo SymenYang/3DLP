@@ -24,7 +24,8 @@ class render:
         if cameraFileName != None:
             fp = open(cameraFileName,'r')
             jd = json.load(fp)
-            self.camera.readFromDict(jd)
+            for item in jd:
+                self.camera.readFromDict(item)
     
     def getR(self,eular):
         rx = eular[0] / 180 * math.pi
@@ -38,7 +39,7 @@ class render:
             [[cos(rz), sin(rz), 0], [-sin(rz), cos(rz), 0], [0, 0, 1]])
         return Rx.dot(Ry).dot(Rz)
     
-    def getTrans(self,eular,pos):
+    def getTrans(self,eular,pos,scale):
         R = self.getR(eular)
         t = np.asarray(pos)
         t.resize((1,3))
@@ -46,7 +47,11 @@ class render:
         i = np.zeros((4,1))
         i[3] = 1
         T = np.append(T,i,axis=1)
-        return T
+        S = np.identity(4)
+        S[0][0] = scale[0]
+        S[1][1] = scale[1]
+        S[2][2] = scale[2]
+        return S.dot(T)
 
     def render(self,aCamera):
         nowTrans = np.identity(4)
@@ -59,7 +64,7 @@ class render:
         for item in aNode.points:
             aCamera.drawPoint(item,trans)
         for item in aNode.nodes:
-            newTrans = self.getTrans(item.rotation,item.pos)
+            newTrans = self.getTrans(item.rotation,item.pos,item.scale)
             self.renderANode(item,trans.dot(newTrans),aCamera)
 
 if __name__ == '__main__':

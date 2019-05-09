@@ -21,6 +21,7 @@ class node:
 
         self.lineStyle = {}
         self.pointStyle = {}
+        self.scale = (1.0,1.0,1.0)
     
     def giveRefNode(self,data):
         self.refNode = data
@@ -44,6 +45,9 @@ class node:
             self.pointDatas = list(data['points'])
         if 'nodes' in data:
             self.nodeDatas = list(data['nodes'])
+
+        if 'scale' in data:
+            self.scale = tuple(data['scale'])
         
         self.initAtomS(self.lineDatas,self.lines,self.lineStyle,line)
         self.initAtomS(self.pointDatas,self.points,self.pointStyle,point)

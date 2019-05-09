@@ -1,52 +1,40 @@
 {
     "path" : "../",
     "import" : {
-        "box" : "box.json"
+        "box" : "ModelJsons/box.json",
+        "camera" : "ModelJsons/cameraModel.json",
+        "plane" : "ModelJsons/plane.json"
     },
     "nodes" : [
         {
-            "name" : "box"
+            "name" : "box",
+            "pos" : [0,-0.5,0]
         },
         {
             "name" : "box",
-            "pos" : [1,0,0]
+            "pos" : [1.4,-0.5,1],
+            "rotation" : [0,45,0]
         },
         {
             "name" : "box",
-            "pos" : [0,3,0],
-            "rotation" : [45,0,0]
+            "pos" : [-2,-0.5,2],
+            "rotation" : [0,45,0]
         },
         {
-            "name" : "box",
-            "pos" : [1,0,0],
-            "lineStyle":{
-                "color" : [250,20,10],
-                "width" : 1
-            }
-        }
-    ],
-    "lines" :[
-        {
-            "start":[-5,0,0],
-            "end":[5,0,0]
+            "name" : "camera",
+            "pos" : [-3,-0,-3],
+            "rotation" : [0,40,0]
         },
         {
-            "start":[0,-5,0],
-            "end":[0,5,0]
+            "name" : "camera",
+            "pos" : [2,0,-3],
+            "rotation" : [0,-40,0]
         },
         {
-            "start":[0,0,0],
-            "end":[0,0,5]
-        },
-        {
-            "start":[0,0,0],
-            "end":[0,0,-5]
-        }
-    ],
-    "points" :[
-        {
-            "pos" : [1,2,3],
-            "width" : 4
+            "name" : "plane",
+            "pos" : [-0.5,0,-3],
+            "rotation" : [90,0,90],
+            "scale" : [1,4,4]
         }
     ]
 }
