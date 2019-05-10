@@ -13,7 +13,10 @@ class point():
             self.width = float(data['width'])
         if 'color' in data:
             self.color = tuple(data['color'])
-    
+        
+    def refine(self):
+        return [self]
+
     def __str__(self):
         return vars(self).__str__()
     

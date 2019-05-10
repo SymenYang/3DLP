@@ -61,7 +61,10 @@ class node:
                     itemDict[key] = style[key]
             atom = ttype()
             atom.readFromDict(itemDict)
-            targets.append(atom)
+            added = atom.refine()
+            targets.extend(added)
+            #targets.append(atom)
+        print(targets)
 
     def initNodes(self,datas,targets,ref):
         for item in datas:

@@ -68,5 +68,5 @@ class render:
             self.renderANode(item,trans.dot(newTrans),aCamera)
 
 if __name__ == '__main__':
-    rd = render('./scene.json','./camera.json')
+    rd = render('./scene2.json','./cameraTop.json')
     rd.render(rd.camera)

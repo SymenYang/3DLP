@@ -95,7 +95,6 @@ class camera:
             sp = sp / sp[-1]
         else:
             print(sp)
-        print(sp,ep)
         if ep[-1] != 0:
             ep = ep / ep[-1]
         else:

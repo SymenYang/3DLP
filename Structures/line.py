@@ -27,8 +27,26 @@ class line:
         if not self.type in self.__line_types:
             self.type = self.__line_types[0]
         
+    def refine(self):
+        if self.type == 'solid':
+            return [self]
+        elif self.type == 'dash':
+            ret = []
+            s = np.asarray(self.start)
+            e = np.asarray(self.end)
+            d = e - s
+            ld = np.linalg.norm(d)
+            ds = d / ld * 0.15
+            de = d / ld * 0.1
+            for i in range(int(ld / 0.15)):
+                ret.append(line(s + ds * i,s + ds * i + de,self.width,self.color))
+            ret.append(line(s + ds * int(ld / 0.15),self.end,self.width,self.color))
+            print(ret)
+            return ret
+
+
     def __str__(self):
         return vars(self).__str__()
-    
+
     def __repr__(self):
         return vars(self).__str__()
