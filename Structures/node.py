@@ -63,8 +63,6 @@ class node:
             atom.readFromDict(itemDict)
             added = atom.refine()
             targets.extend(added)
-            #targets.append(atom)
-        print(targets)
 
     def initNodes(self,datas,targets,ref):
         for item in datas:

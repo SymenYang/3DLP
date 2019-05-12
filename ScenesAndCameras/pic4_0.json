@@ -1,0 +1,98 @@
+{
+    "path" : "./",
+    "import" : {
+        "box" : "ModelJsons/box.json",
+        "camera" : "ModelJsons/cameraModel.json",
+        "plane" : "ModelJsons/plane.json",
+        "box_top" : "ModelJsons/boxTop.json",
+        "camera_top" : "ModelJsons/cameraTop.json"
+    },
+    "nodes":[
+        {
+            "name" : "plane",
+            "pos" : [0,0,-5],
+            "rotation" : [90,0,90],
+            "scale" : [1,5,5]
+        },
+        {
+            "name" : "camera",
+            "pos" : [-4,0,-4],
+            "rotation" : [0,30,0]
+        },
+        {
+            "name" : "camera",
+            "pos" : [4,0,-4],
+            "rotation" : [0,-30,0]
+        }
+    ],
+    "lineStyle":{
+        "color" : [10,20,10],
+        "width" : 2
+    },
+    "lines":[
+        {
+            "start" : [-2,0,2],
+            "end" : [2,0,2],
+            "color" : [10,20,250],
+            "width" : 3
+        },
+        {
+            "start" : [-4,0,-4],
+            "end" : [-2,0,2],
+            "type" : "dash"
+        },
+        {
+            "start" : [-4,0,-4],
+            "end" : [2,0,2],
+            "type" : "dash"
+        },
+        {
+            "start" : [4,0,-4],
+            "end" : [-2,0,2],
+            "type" : "dash"
+        },
+        {
+            "start" : [4,0,-4],
+            "end" : [2,0,2],
+            "type" : "dash"
+        },
+        {
+            "start" : [-3.67,0,-3.04],
+            "end" : [-3.265,0,-3.265],
+            "width" : 3,
+            "color" : [10,20,250]
+        },
+        {
+            "start" : [3.67,0,-3.04],
+            "end" : [3.265,0,-3.265],
+            "width" : 3,
+            "color" : [10,20,250]
+        }
+    ],
+    "cameras":[
+        {
+            "pos": [-8.5,5.6,-2],
+            "filename" : "pic4_0.png",
+            "f" : 0.8,
+            "eular" : [0,102,38],
+            "w" : 1,
+            "h" : 1,
+            "dx" : 0.5,
+            "dy" : 0.5,
+            "width" : 2048,
+            "height" : 2048
+        },
+        {
+            "pos": [0,6,0],
+            "filename" : "pic4_1.png",
+            "f" : 0.5,
+            "eular" : [90,0,0],
+            "w" : 1,
+            "h" : 1,
+            "dx" : 0.5,
+            "dy" : 0.5,
+            "width" : 2048,
+            "height" : 2048
+        }
+    ]
+}

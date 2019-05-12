@@ -41,7 +41,6 @@ class line:
             for i in range(int(ld / 0.15)):
                 ret.append(line(s + ds * i,s + ds * i + de,self.width,self.color))
             ret.append(line(s + ds * int(ld / 0.15),self.end,self.width,self.color))
-            print(ret)
             return ret
 
 

@@ -11,21 +11,21 @@ from Structures.line import line
 from Structures.point import point
 from Structures.node import node
 from Structures.scene import scene
-from camera import camera
+from Render.camera import camera
 
 class render:
-    def __init__(self,sceneFileName = None,cameraFileName = None):
+    def __init__(self,sceneFileName = None):
         self.scene = scene()
-        self.camera = camera()
+        self.cameras = []
         if sceneFileName != None:
             fp = open(sceneFileName,'r')
             jd = json.load(fp)
             self.scene.readFromDict(jd)
-        if cameraFileName != None:
-            fp = open(cameraFileName,'r')
-            jd = json.load(fp)
-            for item in jd:
-                self.camera.readFromDict(item)
+        if 'cameras' in jd:
+            cameraJson = jd['cameras']
+            for item in cameraJson:
+                self.cameras.append(camera())
+                self.cameras[-1].readFromDict(item)
     
     def getR(self,eular):
         rx = eular[0] / 180 * math.pi
@@ -58,15 +58,21 @@ class render:
         self.renderANode(self.scene,nowTrans,aCamera)
         aCamera.write()
 
+    def renderAll(self):
+        for aCamera in self.cameras:
+            nowTrans = np.identity(4)
+            self.renderANode(self.scene,nowTrans,aCamera)
+            aCamera.write()
+
     def renderANode(self,aNode,trans,aCamera):
+        for item in aNode.nodes:
+            newTrans = self.getTrans(item.rotation,item.pos,item.scale)
+            self.renderANode(item,trans.dot(newTrans),aCamera)
         for item in aNode.lines:
             aCamera.drawLine(item,trans)
         for item in aNode.points:
             aCamera.drawPoint(item,trans)
-        for item in aNode.nodes:
-            newTrans = self.getTrans(item.rotation,item.pos,item.scale)
-            self.renderANode(item,trans.dot(newTrans),aCamera)
 
 if __name__ == '__main__':
-    rd = render('./scene2.json','./cameraTop.json')
-    rd.render(rd.camera)
+    rd = render('../ScenesAndCameras/scene2.json')
+    rd.renderAll()
