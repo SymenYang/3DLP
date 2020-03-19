@@ -14,18 +14,22 @@ from Structures.scene import scene
 from Render.camera import camera
 
 class render:
-    def __init__(self,sceneFileName = None):
+    def __init__(self,sceneFileName = None,directDict = None):
         self.scene = scene()
         self.cameras = []
         if sceneFileName != None:
             fp = open(sceneFileName,'r')
             jd = json.load(fp)
             self.scene.readFromDict(jd)
+        elif directDict != None:
+            self.scene.readFromDict(directDict)
+            jd = directDict
         if 'cameras' in jd:
             cameraJson = jd['cameras']
             for item in cameraJson:
                 self.cameras.append(camera())
                 self.cameras[-1].readFromDict(item)
+        self.parts = []
     
     def getR(self,eular):
         rx = eular[0] / 180 * math.pi
@@ -53,15 +57,22 @@ class render:
         S[2][2] = scale[2]
         return S.dot(T)
 
-    def render(self,aCamera):
+    def render(self,aCamera,method = "Normal"):
         nowTrans = np.identity(4)
-        self.renderANode(self.scene,nowTrans,aCamera)
+        if method == "Normal":
+            self.renderANode(self.scene,nowTrans,aCamera)
+        else:
+            self.getAllDistance(self.scene,nowTrans,aCamera)
         aCamera.write()
 
-    def renderAll(self):
+    def renderAll(self,method = "Normal"):
         for aCamera in self.cameras:
             nowTrans = np.identity(4)
-            self.renderANode(self.scene,nowTrans,aCamera)
+            if method == "Normal":
+                self.renderANode(self.scene,nowTrans,aCamera)
+            else:
+                self.getAllDistance(self.scene,nowTrans,aCamera)
+                self.renderDistanceQueue(aCamera)
             aCamera.write()
 
     def renderANode(self,aNode,trans,aCamera):
@@ -72,6 +83,25 @@ class render:
             aCamera.drawLine(item,trans)
         for item in aNode.points:
             aCamera.drawPoint(item,trans)
+
+    def getAllDistance(self, aNode,trans,aCamera):
+        for item in aNode.nodes:
+            newTrans = self.getTrans(item.rotation,item.pos,item.scale)
+            self.renderANodeByDistance(item,trans.dot(newTrans),aCamera)
+        for item in aNode.lines:
+            dist = aCamera.getLineDistance(item,trans)
+            self.parts.append((item,trans,"l",dist))
+        for item in aNode.points:
+            dist = aCamera.getPointDistance(item,trans)
+            self.parts.append((item,trans,"p",dist))
+
+    def renderDistanceQueue(self,aCamera):
+        self.parts.sort(key=lambda x : -x[3])
+        for item in self.parts:
+            if item[2] == "l":
+                aCamera.drawLine(item[0],item[1])
+            elif item[2] == "p":
+                aCamera.drawPointRealSize(item[0],item[1])
 
 if __name__ == '__main__':
     rd = render('../ScenesAndCameras/scene2.json')

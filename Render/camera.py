@@ -100,6 +100,28 @@ class camera:
         else:
             print(ep)
         cv2.line(self.paper,(int(sp[0] / self.h * self.height),int(sp[1] / self.w * self.width)),(int(ep[0] / self.h * self.height),int(ep[1] / self.w * self.width)),aLine.color,int(aLine.width),lineType=cv2.LINE_AA)
+
+    def getLineDistance(self,aLine,trans):
+        start = np.asarray(aLine.start)
+        start = self.addADim(start)
+        start = start.dot(trans)
+        pos = start
+        dist = 0
+        for i in range(3):
+            dist += (self.pos[i] - pos[i]) ** 2
+        
+        return dist
+
+    def getPointDistance(self,aPoint,trans):
+        pos = np.asarray(aPoint.pos)
+        pos = self.addADim(pos)
+        pos = pos.dot(trans)
+        dist = 0
+        for i in range(3):
+            dist += (self.pos[i] - pos[i]) ** 2
+        
+        return dist
+
     
     def drawPoint(self,aPoint,trans):
         pos = np.asarray(aPoint.pos)
@@ -109,6 +131,30 @@ class camera:
         p = self.P.dot(pos)
         p = p / p[-1]
         cv2.circle(self.paper,(int(p[0] / self.h * self.height),int(p[1] / self.w * self.width)),int(aPoint.width),aPoint.color,-1)
+        cv2.circle(self.paper,(int(p[0] / self.h * self.height),int(p[1] / self.w * self.width)),int(aPoint.width),(0,0,0),1)
+    
+    def drawPointRealSize(self,aPoint,trans):
+        size = aPoint.width / 1000
+        pos = np.asarray(aPoint.pos)
+        pos = self.addADim(pos)
+        pos = pos.dot(trans)
+
+        p = self.P.dot(pos)
+        p = p / p[-1]
+
+        pos_p = pos.copy()
+        pos_p[0] += size / 2
+        pos_n = pos.copy()
+        pos_n[0] -= size / 2
+        p_p = self.P.dot(pos_p)
+        p_p = p_p / p_p[-1]
+        p_n = self.P.dot(pos_n)
+        p_n = p_n / p_n[-1]
+        width = p_p - p_n
+        width = np.linalg.norm(width)
+        width = width * self.width
+        cv2.circle(self.paper,(int(p[0] / self.h * self.height),int(p[1] / self.w * self.width)),int(width),aPoint.color,-1)
+        cv2.circle(self.paper,(int(p[0] / self.h * self.height),int(p[1] / self.w * self.width)),int(width),(0,0,0),1)
     
     def write(self):
         cv2.imwrite(self.filename,self.paper)
